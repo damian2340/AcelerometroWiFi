@@ -1,10 +1,10 @@
-#include "acel.h"
+#include "Sensor.h"
 
 /*
  * el driver guarda los valores de aceleracion cada vez que se llama a runetime() y se puede acceder a copia de los valores  con getAcel, getRot() y getTemp
 */
 
-void Acelerometer::init()
+void SensorAcelerometro::init()
 {
     Wire.begin(4,5);
     Wire.beginTransmission(MPU_ADDR); // Begins a transmission to the I2C slave (GY-521 board)
@@ -13,7 +13,7 @@ void Acelerometer::init()
     Wire.endTransmission(true);
 }
 
-void Acelerometer::runtime()
+void SensorAcelerometro::runtime()
 {
     Wire.beginTransmission(MPU_ADDR);
     Wire.write(0x3B);                                // starting with register 0x3B (ACCEL_XOUT_H) [MPU-6000 and MPU-6050 Register Map and Descriptions Revision 4.2, p.40]
@@ -31,12 +31,12 @@ void Acelerometer::runtime()
 /*
  * retorna un aestructura de 3 int16_t que contiene las aceleraciones en X , Y y Z
 */
-vectorInt Acelerometer::getAcel() { return acceleracion; }
+vectorInt_t SensorAcelerometro::getAcel() { return acceleracion; }
 /*
  * retorna un aestructura de 3 int16_t que contiene las rotaciones en X , Y y Z
 */
-vectorInt Acelerometer::getRot() { return giro; }
+vectorInt_t SensorAcelerometro::getRot() { return giro; }
 /*
  * retorna un int16_t que contiene temperatura
 */
-int16_t Acelerometer::getTemp() { return temperatura; }
+int16_t SensorAcelerometro::getTemp() { return temperatura; }

@@ -1,21 +1,24 @@
 #include <Arduino.h>
-#include "acel.h"
+#include "hardwareConfig.h"
+
+#include "wificonfig.h"
+#include "reloj.h"
+#include "measureTask.h"
 
 char tmp_str[7]; // temporary variable used in convert function
 
-Acelerometer sensor;
+extern SensorAcelerometro sensor;
 
-vectorInt *acelLfp();
-vectorInt *rotLfp();
+vectorInt_t *acelLfp();
+vectorInt_t *rotLfp();
 
 void setup() {
   // put your setup code here, to run once:
-  Serial.begin(115200);
+  Serial.begin(NOCEMCU_BAUDRATE);
   sensor.init();
 }
 
 void loop() {
-  sensor.runtime();
   sensor.runtime();
 
   /*
@@ -36,7 +39,7 @@ void loop() {
 
   //LPF
 
-  vectorInt *acel = acelLfp();
+  vectorInt_t *acel = acelLfp();
   Serial.print(acel->x);
   Serial.print(",");
   Serial.print(acel->y);
@@ -51,22 +54,22 @@ void loop() {
   Serial.print(convert_int16_to_str(rot->z));
   */
   Serial.println();
-  delay(25);
+  delay(250);
   
 }
 
-vectorInt *acelLfp()
+vectorInt_t *acelLfp()
 {
-  static vectorInt aceleracion;
+  static vectorInt_t aceleracion;
   aceleracion.x = 7 * (aceleracion.x / 8) + sensor.getAcel().x / 8;
   aceleracion.y = 7 * (aceleracion.y / 8) + sensor.getAcel().y / 8;
   aceleracion.z = 7 * (aceleracion.z / 8) + sensor.getAcel().z / 8;
   return &aceleracion;
 }
 
-vectorInt *rotLfp()
+vectorInt_t *rotLfp()
 {
-  static vectorInt rot;
+  static vectorInt_t rot;
   rot.x = 7 * (rot.x / 8) + sensor.getRot().x / 8;
   rot.y = 7 * (rot.y / 8) + sensor.getRot().y / 8;
   rot.z = 7 * (rot.z / 8) + sensor.getRot().z / 8;
