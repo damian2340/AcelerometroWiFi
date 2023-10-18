@@ -1,5 +1,5 @@
 #include "reloj.h"
-#include "C:\Users\damian\.platformio\packages\framework-arduinoespressif8266\cores\esp8266\time.cpp"
+#include "C:\Users\damia\.platformio\packages\framework-arduinoespressif8266\cores\esp8266\time.cpp"
 
 //#define TZ_STRING TZ_America_Argentina_Buenos_Aires
 

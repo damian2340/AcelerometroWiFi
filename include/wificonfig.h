@@ -11,6 +11,10 @@
 #define STAPSK "Paunero1947"
 #endif
 
+// IPAddress ip(192, 168, 0, 87);
+// IPAddress gateway(192, 168, 0, 1);
+// IPAddress subnet(255, 255, 255, 0);
+
 void wifiInit();
 
 #endif

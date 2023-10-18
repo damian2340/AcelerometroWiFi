@@ -26,6 +26,9 @@ void SensorAcelerometro::runtime()
     giro.x = Wire.read() << 8 | Wire.read();         // reading registers: 0x43 (GYRO_XOUT_H) and 0x44 (GYRO_XOUT_L)
     giro.y = Wire.read() << 8 | Wire.read();         // reading registers: 0x45 (GYRO_YOUT_H) and 0x46 (GYRO_YOUT_L)
     giro.z = Wire.read() << 8 | Wire.read();         // reading registers: 0x47 (GYRO_ZOUT_H) and 0x48 (GYRO_ZOUT_L)
+
+    updateAcelLfp();
+    updateRotLfp();
 }
 
 /*
@@ -36,7 +39,26 @@ vectorInt_t SensorAcelerometro::getAcel() { return acceleracion; }
  * retorna un aestructura de 3 int16_t que contiene las rotaciones en X , Y y Z
 */
 vectorInt_t SensorAcelerometro::getRot() { return giro; }
+
+vectorInt_t SensorAcelerometro::getLpfAcel() { return acelLpf; }
+
+vectorInt_t SensorAcelerometro::getLpfRot() { return rotLpf; }
 /*
  * retorna un int16_t que contiene temperatura
 */
 int16_t SensorAcelerometro::getTemp() { return temperatura; }
+
+
+void SensorAcelerometro::updateAcelLfp()
+{
+  acelLpf.x = 7 * (acelLpf.x / 8) + getAcel().x / 8;
+  acelLpf.y = 7 * (acelLpf.y / 8) + getAcel().y / 8;
+  acelLpf.z = 7 * (acelLpf.z / 8) + getAcel().z / 8;
+}
+
+void SensorAcelerometro::updateRotLfp()
+{
+  rotLpf.x = 7 * (rotLpf.x / 8) + getRot().x / 8;
+  rotLpf.y = 7 * (rotLpf.y / 8) + getRot().y / 8;
+  rotLpf.z = 7 * (rotLpf.z / 8) + getRot().z / 8;
+}
